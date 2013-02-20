@@ -5,6 +5,28 @@ sc create PrivateSvn binpath= "F:\Program Files\Subversion\bin\svnserve.exe
 del.bat
 sc delete "PrivateSvn"
 
+#权限配置和密码设置可放在根目录中，这样编辑起来比较方便(svnserve.conf)
+password-db = ..\..\passwd
+authz-db = ..\..\authz
+#下面这个可以不要
+auth-access = write
+#关闭匿名访问
+anon-access = none
+
+passwd文件
+[users]
+admin = admin
+
+authz文件
+[groups]
+group1 = admin,xiaoming
+
+[project1:/]
+@group1 = rw
+@group2 =
+admin = rw
+
+
 匹配函数
 获取格式:word word(...){
 (?m)^[ \t]*\w+[ \t]+\w+[ \t]*\(.*?\)[\r\n \t]*{
