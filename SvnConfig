@@ -1,0 +1,7 @@
+
+setup.bat
+sc create PrivateSvn binpath= "F:\Program Files\Subversion\bin\svnserve.exe 
+--service --root F:\Private\ProgramSvnLibrary" displayname= "PrivateSvn" depend= tcpip start= auto
+
+del.bat
+sc delete "PrivateSvn"
