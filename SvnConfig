@@ -1,7 +1,16 @@
-
 setup.bat
 sc create PrivateSvn binpath= "F:\Program Files\Subversion\bin\svnserve.exe 
 --service --root F:\Private\ProgramSvnLibrary" displayname= "PrivateSvn" depend= tcpip start= auto
 
 del.bat
 sc delete "PrivateSvn"
+
+匹配函数
+获取格式:word word(...){
+(?m)^[ \t]*\w+[ \t]+\w+[ \t]*\(.*?\)[\r\n \t]*{
+获取/*...*/
+(?m)/\*(.|[\r\n])*?\*/
+括弧匹配 {...}
+(?m){(.|[\r\n])*?}
+匹配return ... ;
+return(([ \t]+.*?)|([.\t]*));
