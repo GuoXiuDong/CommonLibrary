@@ -1,0 +1,187 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows;
+using System.Collections.ObjectModel;
+
+namespace CommonLibrary
+{
+    /// <summary>
+    /// 资源服务
+    /// </summary>
+    public class ResourceService
+    {
+        /// <summary>
+        /// 资源服务
+        /// </summary>
+        /// <param name="resourceDictionary">资源宿主</param>
+        public ResourceService(Collection<ResourceDictionary> resourceCollection)
+        {
+            resourceSet = resourceCollection;
+        }
+        /// <summary>
+        /// 资源服务
+        /// </summary>
+        public ResourceService()
+        {
+            resourceSet = Application.Current.Resources.MergedDictionaries;
+        }
+
+        /// <summary>
+        /// 发送改变时的操作
+        /// </summary>
+        public Action<string> ChangedAction;
+
+        void Dump(string str)
+        {
+            if (ChangedAction != null)
+                ChangedAction(str);
+        }
+
+        Collection<ResourceDictionary> resourceSet;
+        Dictionary<string, Dictionary<object, object>> sourceMap = new Dictionary<string, Dictionary<object, object>>();
+
+        #region 内部方法
+        /// <summary>
+        /// 注册资源
+        /// </summary>
+        /// <param name="source"></param>
+        void Register(string key, ResourceDictionary source)
+        {
+            Dictionary<object, object> dic = new Dictionary<object, object>();
+            foreach (var s in source.Keys)
+            {
+                dic.Add(s, source[s]);
+            }
+            sourceMap.Add(key, dic);
+        }
+        /// <summary>
+        /// 替换并添加
+        /// </summary>
+        /// <param name="key">uri名称</param>
+        void ReplaceAndAdd(string key)
+        {
+            if (resourceSet.Count == 0)
+                resourceSet.Add(new ResourceDictionary());
+
+            var source = sourceMap[key];
+            var target = resourceSet[0];
+
+            //替换已经存在的
+            var keys = target.Keys.Cast<object>().Intersect(source.Keys);
+            Dump("开始--替换");
+            foreach (var s in keys)
+            {
+                target[s] = source[s];
+                Dump(s.ToString());
+            }
+            Dump("结束--替换");
+
+            //添加不存在的
+            var others = source.Keys.Except(keys);
+            Dump("开始--添加");
+            foreach (var s in others)
+            {
+                target.Add(s, source[s]);
+                Dump(s.ToString());
+            }
+            Dump("结束--添加");
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="key">uri名称</param>
+        void Remove(string key)
+        {
+            var source = sourceMap[key];
+            var target = resourceSet[0];
+
+            //删除已经存在的
+            var keys = target.Keys.Cast<object>().Intersect(source.Keys);
+            foreach (var s in keys)
+            {
+                target.Remove(s);
+            }
+        }
+        /// <summary>
+        /// 验证URI是否有效
+        /// </summary>
+        /// <param name="uriString">一个URI字符串</param>
+        /// <returns></returns>
+        bool ValidateUriString(ref string uriString)
+        {
+            var str = (uriString ?? string.Empty).Trim();
+
+            if (str.Length == 0)
+                return false;
+
+            return true;
+        }        
+        #endregion
+
+        #region 外部接口
+        /// 擦除资源
+        /// </summary>
+        /// <param name="uriString">一个URI</param>
+        /// <returns></returns>
+        public bool EraseResource(string uriString)
+        {
+            var str = uriString;
+
+            if (!ValidateUriString(ref str))
+                return false;
+
+            try
+            {
+                if (!sourceMap.ContainsKey(str))
+                {
+                    var source = new ResourceDictionary()
+                    {
+                        Source = new Uri(str, UriKind.RelativeOrAbsolute)
+                    };
+                    Register(str, source);
+                }
+                //添加资源，替换已有的，新增没有的
+                ReplaceAndAdd(str);
+                return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }
+        /// <summary>
+        /// 选中资源
+        /// </summary>
+        /// <param name="uriString">一个URI</param>
+        /// <returns></returns>
+        public bool SelectedResource(string uriString)
+        {
+            var str = uriString;
+
+            if (!ValidateUriString(ref str))
+                return false;
+
+            try
+            {
+                if (!sourceMap.ContainsKey(str))
+                {
+                    var source = new ResourceDictionary()
+                    {
+                        Source = new Uri(str, UriKind.RelativeOrAbsolute)
+                    };
+                    Register(str, source);
+                }
+                //添加资源，替换已有的，新增没有的
+                ReplaceAndAdd(str);
+                return true;
+            }
+            catch
+            {
+            }
+            return false;
+        }        
+        #endregion
+
+    }
+}
