@@ -1,0 +1,6 @@
+    [ContentProperty("Window")]
+    public sealed class CloseWindow : CodeActivity
+    {
+      public InArgument<Window> Window{get;set;}
+    }
+    表示Window属性是XAML中的内容属性
