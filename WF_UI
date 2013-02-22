@@ -1,0 +1,9 @@
+
+WF的设计器中的UI和用户UI是两个不同的概念
+
+设计器中的UI
+1、Designer
+xmlns:sadv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
+http://msdn.microsoft.com/zh-cn/library/system.activities.presentation.view.aspx
+
+http://schemas.microsoft.com/winfx/2006/xaml/presentation
