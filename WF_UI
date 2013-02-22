@@ -1,9 +1,37 @@
-
 WF的设计器中的UI和用户UI是两个不同的概念
 
 设计器中的UI
 1、Designer
 xmlns:sadv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
 http://msdn.microsoft.com/zh-cn/library/system.activities.presentation.view.aspx
-
 http://schemas.microsoft.com/winfx/2006/xaml/presentation
+两种UI都可以使用，例如
+    xmlns:sad="clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation"
+    xmlns:sadc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation"
+    xmlns:sadv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
+
+<sadc:ArgumentToExpressionConverter x:Uid="sadv:ArgumentToExpressionConverter_1" x:Key="..." />
+
+<TextBox Text="{Binding Path=ModelItem.BookmarkName, Mode=TwoWay, 
+            Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }"/>
+<sadv:ExpressionTextBox 
+            Expression="{Binding Path=ModelItem.BookmarkName, Mode=TwoWay, 
+              Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=In }"
+            ExpressionType="{x:Type s:String}"
+            OwnerActivity="{Binding Path=ModelItem}"/>
+
+<sadv:ExpressionTextBox             
+            Expression="{Binding Path=ModelItem.Result, Mode=TwoWay, 
+              Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=Out}"                                             
+            ExpressionType="{Binding Path=ModelItem.ItemType, 
+              Converter={StaticResource TypeToFirstGenericArgumentConverter}}"
+            OwnerActivity="{Binding Path=ModelItem}"
+            UseLocationExpression="true"/>
+
+    [Designer(typeof(WaitForInputDesigner))]
+    public class WaitForInput<TResult> : NativeActivity<TResult>
+    {
+        [RequiredArgument]
+        public InArgument<string> BookmarkName { get; set; }
+        ......
+    }
