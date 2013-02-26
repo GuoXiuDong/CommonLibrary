@@ -4,3 +4,13 @@
       public InArgument<Window> Window{get;set;}
     }
     表示Window属性是XAML中的内容属性
+
+
+WPF绑定值类型的数组时需要加标记
+using System.Runtime.InteropServices;
+public struct Test
+{
+    [MarshalAs (UnmanagedType.ByValArray, SizeConst=50)] 
+    public char[] names;
+    public int ID;
+}
