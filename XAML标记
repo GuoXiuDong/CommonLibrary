@@ -29,3 +29,36 @@ public struct Test
 INotifyPropertyChanged的原因；对于集合的绑定也类似，可以使用ObservableCollection <T>这个容器类构造集合辅助处理】
 反过来修改目标，对源对象的修改没有限定；
 如果源目标是集合，则要看情况而定
+
+Bingding的源：
+有三个属性用来设置源：ElementName(string)、Source(Object) 和 RelativeSource(RelativeSource)。
+注：这三个只能指定一个，否则异常。
+ElementName： 源为一个元素(Element)，这里用的是此元素中设置的Name属性。
+Source：以object作为源。<TextBlock Text="{Binding Source={StaticResource myDataSource}, Path=PersonName}"/>
+RelativeSource： 源相对于绑定目标的位置。
+    源是元素本身：{Binding RelativeSource={RelativeSource Self}}
+    源是Tempalte中元素的Parent：{Binding RelativeSource={RelativeSource TemplatedParent}}
+    源是绑定以collection形式的前一个数据：{Binding RelativeSource={RelativeSource PreviousData}}
+，MSDN上关于PreviousData的说明并不多，这里有一篇文章可以参考
+    以上三项为RelativeSource中的Static值，使用这些值可以减少内存开销
+    源是Ancestor(可能比parent还高)：{Binding RelativeSource={RelativeSource FindAncestor,
+AncestorLevel=n, AncestorType={x:Type desiredType}}}
+
+Path:
+Binding中的Path是 PropertyPath对象。
+在最简单的情况下，Path 属性值是要用于绑定的源对象的属性名称，如 Path=PropertyName。
+通过类似于 C# 中使用的语法，可以指定属性的子属性。例如，子句 Path=ShoppingCart.Order 将绑定设置为对象的子属性 Order 或属性 ShoppingCart。
+
+若要绑定到附加属性，请将附加属性用括号括起。例如，若要绑定到附加属性 DockPanel.Dock，则语法为 Path=(DockPanel.Dock)。
+
+在应用了索引器的属性名称之后的方括号内，可以指定属性的索引器。例如，子句 Path=ShoppingCart[0] 将绑定设置为与属性的内部索引处理文本字符串“0”的方式对应的索引。此外，还支持多个索引器。
+
+在 Path 子句中可以同时使用索引器和子属性，例如，Path=ShoppingCart.ShippingInfo[MailingAddress,Street]。
+
+在索引器内部，可以有多个由逗号 (,) 分隔的索引器参数。可以使用圆括号指定每个参数的类型。例如，可以使用 Path="[(sys:Int32)42,(sys:Int32)24]"，其中 sys 映射到 System 命名空间。
+
+如果源为集合视图，则可以用斜杠 (/) 指定当前项。例如，子句 Path=/ 设置到视图中当前项的绑定。如果源为集合，则此语法指定默认集合视图的当前项。
+
+可以结合使用属性名和斜杠来遍历作为集合的属性。例如，Path=/Offices/ManagerName 指定源集合的当前项，该源集合包含同样是集合的 Offices 属性。其当前项是包含 ManagerName 属性的对象。
+
+也可以使用句点 (.)路径绑定到当前源。例如，Text=”{Binding}” 等效于 Text=”{Binding Path=.}”。
