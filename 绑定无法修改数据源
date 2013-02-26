@@ -1,0 +1,22 @@
+<DataTemplate x:Key="DataTemplate_IEnumerable">
+    <ListBox ItemsSource="{Binding}" Width="350" Margin="0,5,0,10">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Padding="5,0,5,0" Text="{Binding}" />
+                    <TextBox Text="{Binding Path=.,Mode=TwoWay}" Width="80"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</DataTemplate>
+
+        <ContentPresenter Grid.Row="1" Name="PresentWindow"
+                          Content="{Binding}">
+        </ContentPresenter>
+
+IList<string> StringList = new List<string>();
+this.DataContext = StringList;
+var template = (DataTemplate)Application.Current.Resources["DataTemplate_IEnumerable"];
+PresentWindow.ContentTemplate = template;
+
