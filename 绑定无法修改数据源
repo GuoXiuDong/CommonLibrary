@@ -31,3 +31,6 @@ PresentWindow.ContentTemplate = template;
                 </DataGrid.Columns>
             </DataGrid>
 2、同1可编辑界面，不引发异常；失去焦点，界面返回原值。
+
+这种情况的出现，本人认为在绑定的源数据上，没有属性操作造成的；获得源数据可能使用反射，但设置数据则需求
+提供属性设置接口...
