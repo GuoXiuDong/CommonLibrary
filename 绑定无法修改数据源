@@ -39,7 +39,8 @@ PresentWindow.ContentTemplate = template;
         public class MyString
         {
             public string Val { get; set; }
-        }
+        }（此处如果数据源为IEnumerable<MyString>，则界面虽然可修改，但数据源不改变；IList<MyString>可改变源）
+
 类型，即可实现修改源数据，若为值类型
         public struct MyString
         {
