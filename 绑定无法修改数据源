@@ -20,3 +20,14 @@ this.DataContext = StringList;
 var template = (DataTemplate)Application.Current.Resources["DataTemplate_IEnumerable"];
 PresentWindow.ContentTemplate = template;
 
+1、上面的方法可以编辑界面，不引发异常；但目标源不更新。
+
+            <DataGrid AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserSortColumns="False"   
+                  ItemsSource="{Binding}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Path=.,Mode=TwoWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+2、同1可编辑界面，不引发异常；失去焦点，界面返回原值。
