@@ -34,3 +34,16 @@ PresentWindow.ContentTemplate = template;
 
 这种情况的出现，本人认为在绑定的源数据上，没有属性操作造成的；获得源数据可能使用反射，但设置数据则需求
 提供属性设置接口...
+
+将上面的string类型替换成
+        public class MyString
+        {
+            public string Val { get; set; }
+        }
+类型，即可实现修改源数据，若为值类型
+        public struct MyString
+        {
+            public string Val { get; set; }
+        }
+则和上面1、一样可以编辑界面，但数据源中的数据没有发生改变
+
