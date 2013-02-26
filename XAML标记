@@ -47,18 +47,16 @@ AncestorLevel=n, AncestorType={x:Type desiredType}}}
 Path:
 Binding中的Path是 PropertyPath对象。
 在最简单的情况下，Path 属性值是要用于绑定的源对象的属性名称，如 Path=PropertyName。
-通过类似于 C# 中使用的语法，可以指定属性的子属性。例如，子句 Path=ShoppingCart.Order 将绑定设置为对象的子属性 Order 或属性 ShoppingCart。
-
+通过类似于 C# 中使用的语法，可以指定属性的子属性。例如，子句 Path=ShoppingCart.Order 将绑定设置为对象的子属性 Order 
+或属性 ShoppingCart。
 若要绑定到附加属性，请将附加属性用括号括起。例如，若要绑定到附加属性 DockPanel.Dock，则语法为 Path=(DockPanel.Dock)。
-
-在应用了索引器的属性名称之后的方括号内，可以指定属性的索引器。例如，子句 Path=ShoppingCart[0] 将绑定设置为与属性的内部索引处理文本字符串“0”的方式对应的索引。此外，还支持多个索引器。
-
+在应用了索引器的属性名称之后的方括号内，可以指定属性的索引器。例如，子句 Path=ShoppingCart[0] 将绑定设置为与属性的
+内部索引处理文本字符串“0”的方式对应的索引。此外，还支持多个索引器。
 在 Path 子句中可以同时使用索引器和子属性，例如，Path=ShoppingCart.ShippingInfo[MailingAddress,Street]。
-
-在索引器内部，可以有多个由逗号 (,) 分隔的索引器参数。可以使用圆括号指定每个参数的类型。例如，可以使用 Path="[(sys:Int32)42,(sys:Int32)24]"，其中 sys 映射到 System 命名空间。
-
-如果源为集合视图，则可以用斜杠 (/) 指定当前项。例如，子句 Path=/ 设置到视图中当前项的绑定。如果源为集合，则此语法指定默认集合视图的当前项。
-
-可以结合使用属性名和斜杠来遍历作为集合的属性。例如，Path=/Offices/ManagerName 指定源集合的当前项，该源集合包含同样是集合的 Offices 属性。其当前项是包含 ManagerName 属性的对象。
-
+在索引器内部，可以有多个由逗号 (,) 分隔的索引器参数。可以使用圆括号指定每个参数的类型。例如，可以使用 
+Path="[(sys:Int32)42,(sys:Int32)24]"，其中 sys 映射到 System 命名空间。
+如果源为集合视图，则可以用斜杠 (/) 指定当前项。例如，子句 Path=/ 设置到视图中当前项的绑定。如果源为集合，则此语法
+指定默认集合视图的当前项。
+可以结合使用属性名和斜杠来遍历作为集合的属性。例如，Path=/Offices/ManagerName 指定源集合的当前项，该源集合包含同样是
+集合的 Offices 属性。其当前项是包含 ManagerName 属性的对象。
 也可以使用句点 (.)路径绑定到当前源。例如，Text=”{Binding}” 等效于 Text=”{Binding Path=.}”。
