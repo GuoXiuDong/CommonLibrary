@@ -2,3 +2,35 @@
 http://msdn.microsoft.com/zh-cn/magazine/cc785479.aspx
 代码下载
 http://code.msdn.microsoft.com/
+
+MVVM的缺点：
+1、ViewModel中的初始化参数不好传递
+
+Model:
+public class Business : INotifyPropertyChanged
+{
+}
+
+ViewModel:
+public class BusinessViewModel
+{
+  readonly Business business;
+  public ICommand SubmitCommand { get; private set; }
+  public Bussiness Bussiness  { get; private set; }
+  public BusinessViewModel()
+  {
+    SubmitCommand = new DelegateCommand<object>(this.OnSubmit)
+  }
+  void OnSubmit(object obj)
+  {
+  }
+}
+
+View:
+<UserControl ...>
+    <UserControl.DataContext>
+        <local:BusinessViewModel/>
+    </UserControl.DataContext>
+</UserControl>
+
+
