@@ -33,4 +33,8 @@ View:
     </UserControl.DataContext>
 </UserControl>
 
+View与ViewModule连接可以通过下面的方式==>
+Binding Data：实现数据的传递
+Command：实现操作的调用
+AttachBehavior：实现控件加载过程中的操作
 
